@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homepage</title>
+  <style>
+    body {
+      background-color: aliceblue;
+      margin: 0;
+      font-family: cursive;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #8e7fff;
+      padding: 10px 20px;
+    }
+
+    .navbar-brand {
+      color: white;
+      font-size: 1.5rem;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown img {
+      cursor: pointer;
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      right: 0;
+      background-color: white;
+      min-width: 200px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      border-radius: 8px;
+      z-index: 1;
+      padding: 10px 0;
+    }
+
+    .dropdown:hover .dropdown-menu {
+      display: block;
+    }
+
+    .dropdown-item {
+      padding: 10px 15px;
+      cursor: pointer;
+      text-decoration: none;
+      color: black;
+      display: block;
+    }
+
+    .dropdown-item:hover {
+      background-color: #f1f1f1;
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background-color: #ddd;
+      margin: 5px 0;
+    }
+
+    .form-check-label {
+      font-family: cursive;
+      font-size: medium;
+      margin-left: 8px;
+    }
+
+    /* Display */
+    #display {
+      width: 90%;
+      margin: 40px auto 20px;
+      padding: 20px;
+      font-size: 2rem;
+      text-align: right;
+      background-color: #eee;
+      border-radius: 10px;
+      border: none;
+      display: block;
+      height: 80px;
+    }
+
+    /* Calculator Grid */
+    .calculator {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      width: 90%;
+      margin: auto;
+    }
+
+    .btn {
+     border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    display: flex;
+    color: #5b2352;
+    padding: 20px;
+    border: 1px solid;
+    box-shadow: 0 4px 6px rgb(102 50 93);
+    font-size: 1.5rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    justify-content: center;
+    flex-direction: column-reverse;
+    align-items: center;
+    }
+
+    .btn:hover {
+      background-color: #dcdcdc;
+      transform: scale(1.05);
+    }
+
+    /* Dark Mode */
+    .px-3 .theme-toggle{
+      height: 40px;
+      width: 100px;
+      background-color: lightblue;
+      border: none;
+      border-radius: 20px;
+
+      
+    }
+
+    body.dark-mode {
+      background-color: #121212;
+      color: white;
+    }
+
+    body.dark-mode .navbar {
+      background-color: #333;
+    }
+
+    body.dark-mode .navbar-brand {
+      color: #fff;
+    }
+
+    body.dark-mode .btn {
+      background-color: #1e1e1e;
+      color: #f1f1f1;
+      box-shadow: 0 4px 6px #000;
+    }
+
+    body.dark-mode .btn:hover {
+      background-color: #2c2c2c;
+    }
+
+    body.dark-mode #display {
+      background-color: #2a2a2a;
+      color: white;
+    }
+
+    body.dark-mode .theme-toggle {
+      background: #444;
+      color: white;
+    }
+
+    body.dark-mode .theme-toggle:hover {
+      background: #555;
+    }
+
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-brand">CALCULATOR</div>
+    <div class="dropdown">
+      <img src="assets/icons8-settings-50.png" alt="Settings" class="settings-icon" width="40">
+      <div class="dropdown-menu">
+        <div class="px-3">
+          <label>
+            <button class="theme-toggle" id="themeToggle">🌙 Dark</button>
+          </label>
+        </div>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item text-danger" href="#" onclick="logout()">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Display -->
+  <input type="text" id="display" readonly>
+
+  <!-- Calculator Grid -->
+  <div class="calculator">
+    <div class="btn" onclick="clearAll()">AC</div>
+    <div class="btn" onclick="percent()">%</div>
+    <div class="btn" onclick="backspace()">⌫</div>
+    <div class="btn" onclick="append('/')">/</div>
+
+    <div class="btn" onclick="append('7')">7</div>
+    <div class="btn" onclick="append('8')">8</div>
+    <div class="btn" onclick="append('9')">9</div>
+    <div class="btn" onclick="append('*')">*</div>
+
+    <div class="btn" onclick="append('4')">4</div>
+    <div class="btn" onclick="append('5')">5</div>
+    <div class="btn" onclick="append('6')">6</div>
+    <div class="btn" onclick="append('-')">-</div>
+
+    <div class="btn" onclick="append('1')">1</div>
+    <div class="btn" onclick="append('2')">2</div>
+    <div class="btn" onclick="append('3')">3</div>
+    <div class="btn" onclick="append('+')">+</div>
+
+    <div class="btn" onclick="append('00')">00</div>
+    <div class="btn" onclick="append('0')">0</div>
+    <div class="btn" onclick="append('.')">.</div>
+    <div class="btn" onclick="calculate()">=</div>
+  </div>
+
+  <script>
+     // Theme toggle logic
+    const themeToggle = document.getElementById("themeToggle");
+
+    function applyTheme(mode) {
+      if (mode === "dark") {
+        document.body.classList.add("dark-mode");
+        themeToggle.textContent = "☀️ Light";
+      } else {
+        document.body.classList.remove("dark-mode");
+        themeToggle.textContent = "🌙 Dark";
+      }
+    }
+
+    const savedTheme = localStorage.getItem("theme") || "light";
+    applyTheme(savedTheme);
+
+    themeToggle.addEventListener("click", function () {
+      const newTheme = document.body.classList.contains("dark-mode") ? "light" : "dark";
+      applyTheme(newTheme);
+      localStorage.setItem("theme", newTheme);
+    });
+
+    // Login / Logout logic
+    const user = JSON.parse(localStorage.getItem("loggedInUser"));
+    if (!user) {
+      alert("Please login first.");
+      window.location.href = "login.html";
+    }
+
+    function logout() {
+      localStorage.removeItem("loggedInUser");
+      window.location.href = "login.html";
+    }
+
+    // Calculator logic
+    const display = document.getElementById("display");
+    let justEvaluated = false;
+
+    function append(value) {
+      if (justEvaluated && !"+-*/".includes(value)) {
+        display.value = '';
+      }
+      display.value += value;
+      justEvaluated = false;
+    }
+
+    function clearAll() {
+      display.value = '';
+      justEvaluated = false;
+    }
+
+    function backspace() {
+      display.value = display.value.slice(0, -1);
+    }
+
+    function percent() {
+      try {
+        display.value = parseFloat(display.value) / 100;
+        justEvaluated = true;
+      } catch {
+        display.value = "Error";
+      }
+    }
+
+    function calculate() {
+      try {
+        if (display.value.trim() !== '') {
+          display.value = eval(display.value);
+          justEvaluated = true;
+        }
+      } catch {
+        display.value = "Error";
+        justEvaluated = false;
+      }
+    }
+
+    document.addEventListener("keydown", function (event) {
+      const key = event.key;
+      const code = event.code;
+
+      if (code.startsWith("Numpad") && isNaN(Number(key))) {
+        console.log("Num Lock might be OFF", key);
+      }
+
+      if (!isNaN(key) || "+-*/.".includes(key)) {
+        const lastChar = display.value.slice(-1);
+        if ("+-*/.".includes(key) && "+-*/.".includes(lastChar)) return;
+        append(key);
+      } else if (key === "Enter" || key === "=") {
+        event.preventDefault();
+        calculate();
+      } else if (key === "Backspace") {
+        backspace();
+      } else if (key === "Escape") {
+        clearAll();
+      } else if (key === "%") {
+        percent();
+      }
+    });
+  </script>
+</body>
+</html>

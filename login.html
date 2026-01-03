@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login Page</title>
+</head>
+
+<body style="background-color: aliceblue;">
+    <div><img src="assets/pexels-pixabay-54186.jpg" alt="flower img" width="100%"></div>
+    <div class="well">Welcome !</div>
+    <div>
+        <form onsubmit="login(event)">
+            <div><input type="text" class="ipty" id="email" placeholder="Email Address" required></div>
+            <div>
+                <input type="password" class="ipty" id="password"  placeholder="password" required>
+            </div>
+            <div class="frgtpw">forget password?</div>
+            <div>
+                <button type="submit">Login</button>
+            </div>
+            <div class="lbl">
+                <label class="not">Not a Member</label>
+                <a href="register.html" class="reg">Register Now?</a>
+            </div>
+
+        </form>
+    </div>
+    <style>
+        .well {
+            font-weight: bold;
+            font-size: 25px;
+            margin-top: 20px;
+            margin-left: 20px;
+            font-family: cursive;
+        }
+
+        .ipty {
+            border: 1px solid;
+            border-radius: 10px;
+            padding: 15px;
+            width: 80%;
+            margin-top: 20px;
+            margin-left: 20px;
+        }
+
+        ::placeholder {
+            font-family: cursive;
+        }
+
+        button {
+            background-color: blue!important;
+            color: white;
+            margin-top: 20px;
+           width: 90%;
+            padding: 10px;
+            border-radius: 10px;
+            margin-left: 20px;
+            border-color: blue;
+
+        }
+
+        .frgtpw {
+            color: blue;
+            margin-left: 20px;
+            margin-top: 20px;
+            font-family: cursive;
+        }
+
+        .lbl {
+            margin-top: 10px;
+            text-align: center;
+
+        }
+
+        .not {
+            font-family: cursive;
+            color: #0000008a;
+
+        }
+
+        .reg {
+            font-family: cursive;
+            color: blue!important;
+        }
+
+body.dark-mode {
+  background-color: #121212 !important;
+  color: white;
+}
+
+body.dark-mode input,
+body.dark-mode button {
+  background-color: #1e1e1e;
+  color: white;
+  border: 1px solid white;
+}
+
+body.dark-mode ::placeholder {
+  color: #ccc;
+}
+
+body.dark-mode .frgtpw,
+body.dark-mode .reg,
+body.dark-mode .not {
+  color: lightblue;
+}
+
+
+    </style>
+
+ <script>
+    function login(event) {
+        
+      event.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+
+      const match = users.find(user => user.email === email && user.password === password);
+
+      if (match) {
+        localStorage.setItem("loggedInUser", JSON.stringify(match));
+        alert("✅ Login successful!");
+        window.location.href = "homepg.html";
+      } else {
+        alert("❌ Invalid email or password!");
+      }
+    }
+
+ const currentTheme = localStorage.getItem("theme") || "light";
+  if (currentTheme === "dark") {
+    document.body.classList.add("dark-mode");
+  }
+
+  </script>
+
+</body>
+
+</html>
